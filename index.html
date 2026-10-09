@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f6f7fb">
+<meta name="description" content="轻量、清爽的日常习惯打卡助手">
+<title>日常打卡助手</title>
+<style>
+:root{--bg:#e5f0ee;--card:rgba(255,255,255,.96);--text:#263a3b;--muted:#788b89;--line:#d5e4e1;--primary:#4c9c9c;--primary2:#8ec5c1;--green:#4c9c9c;--shadow:0 12px 32px rgba(37,94,94,.09);--radius:20px}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 14% 4%,rgba(255,255,255,.88),transparent 32%),radial-gradient(ellipse at 90% 22%,rgba(91,178,174,.18),transparent 34%),radial-gradient(ellipse at 25% 70%,rgba(94,171,167,.13),transparent 38%),linear-gradient(150deg,#eaf4f1 0%,#d9eeeb 48%,#f4f7f4 100%);background-attachment:fixed;color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;-webkit-tap-highlight-color:transparent}
+button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #91d1cc;outline-offset:2px}
+.app{max-width:760px;margin:0 auto;min-height:100dvh;padding:env(safe-area-inset-top) 18px calc(94px + env(safe-area-inset-bottom))}
+header{display:flex;justify-content:space-between;align-items:center;padding:22px 2px 20px}.brand{display:flex;align-items:center;gap:11px}.logo{width:44px;height:44px;border-radius:15px;background:linear-gradient(140deg,#398f91,#70b9b4);display:grid;place-items:center;color:white;font-size:22px;box-shadow:0 8px 18px #777af044}.brand h1{font-size:19px;margin:0 0 3px;font-weight:800;letter-spacing:-.4px}.brand p{font-size:12px;color:var(--muted);margin:0}.icon-btn{border:1px solid var(--line);background:white;width:44px;height:44px;border-radius:15px;font-size:19px;color:#656b83}
+.greeting{font-size:13px;color:var(--muted);margin:4px 0 6px}.date-title{display:flex;align-items:end;justify-content:space-between;margin-bottom:17px}.date-title h2{font-size:27px;letter-spacing:-.8px;margin:0}.date-title .sub{font-size:12px;color:var(--muted);padding-bottom:4px}
+.hero{background:linear-gradient(125deg,#348f91,#70b9b5);color:white;border-radius:26px;padding:22px;box-shadow:0 16px 32px #347f8030;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:170px;height:170px;border:28px solid #ffffff12;border-radius:50%;right:-48px;top:-75px}.hero-top{display:flex;justify-content:space-between;align-items:start;position:relative;z-index:1}.hero-label{font-size:13px;color:#dff6f2}.hero-count{font-size:30px;font-weight:800;letter-spacing:-1px;margin-top:5px}.hero-count small{font-size:14px;font-weight:500;color:#e1f5f2;letter-spacing:0}.ring{width:70px;height:70px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#fff var(--progress,0%),#ffffff38 0);position:relative;flex-shrink:0}.ring:before{content:"";position:absolute;inset:6px;border-radius:50%;background:#348f91}.ring span{position:relative;font-weight:800;font-size:14px}.progress-track{height:6px;background:#ffffff38;border-radius:9px;margin:19px 0 10px;overflow:hidden;position:relative;z-index:1}.progress-fill{height:100%;width:0;background:white;border-radius:9px;transition:width .25s ease}.hero-foot{display:flex;justify-content:space-between;font-size:11px;color:#e1f5f2;position:relative;z-index:1}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin:27px 2px 13px}.section-head h3{font-size:17px;margin:0;letter-spacing:-.3px}.section-head span{font-size:12px;color:var(--muted)}.text-btn{border:0;background:transparent;color:var(--primary);font-size:13px;padding:8px 0}
+.task-list{display:grid;gap:10px}.task{display:flex;align-items:center;gap:11px;background:var(--card);border:1px solid #e9ece8;border-radius:18px;padding:14px;box-shadow:0 4px 15px rgba(35,83,83,.035);min-height:76px;transition:transform .15s,border-color .15s}.task:active{transform:scale(.995)}.task{cursor:pointer}.task-main{cursor:pointer}.detail-notes:before{content:"任务说明";display:block;font-size:12px;font-weight:800;letter-spacing:.04em;color:#4b9d9a;margin-bottom:8px}.detail-line strong{color:#303957}.detail-label{font-weight:600}.task-detail-modal{width:min(100%,560px)}.detail-line{display:flex;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid var(--line);font-size:13px}.detail-line:last-child{border-bottom:0}.detail-label{color:var(--muted)}.detail-notes{font-size:13px;line-height:1.75;white-space:pre-wrap;color:#303957;background:#f1f3ff;border:1px solid #dfe4ff;border-left:4px solid #7185d8;border-radius:15px;padding:16px;margin-top:8px;font-size:15px;font-weight:550;line-height:1.9}.task-detail-modal{max-height:85dvh;overflow:auto}.task-detail-modal .modal-actions{position:sticky;bottom:-22px;background:white;padding:12px 0 0}.task-icon{display:none}.task-main{min-width:0;flex:1}.task-name{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.task-meta{font-size:11px;color:var(--muted);margin-top:5px}.task.done .task-name{color:#8da09e;text-decoration:line-through}.task-actions{display:flex;align-items:center;gap:6px}.repeat-note{font-size:11px;color:var(--primary);background:#e5f3f1;border-radius:8px;padding:4px 7px;display:inline-block;margin-top:5px}.check{width:38px;height:38px;border:1.5px solid #d5e4e1;border-radius:13px;background:white;color:white;font-size:18px;flex-shrink:0;transition:all .18s}.task.done .check{background:var(--green);border-color:var(--green)}.empty{padding:27px 15px;text-align:center;color:var(--muted);background:white;border-radius:18px;font-size:13px;line-height:1.7}
+.quick-stats{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:15px}.stat{background:white;border:1px solid #e2ecea;border-radius:18px;padding:16px}.stat-label{font-size:11px;color:var(--muted)}.stat-value{font-size:25px;font-weight:800;letter-spacing:-.7px;margin-top:7px}.stat-value small{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:0}.stat-note{font-size:11px;color:var(--green);margin-top:4px}
+.view{display:none}.view.active{display:block}.calendar-card,.panel{background:white;border:1px solid #e2ecea;border-radius:22px;padding:17px;box-shadow:var(--shadow)}.month-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.month-head strong{font-size:17px}.month-nav{display:flex;gap:7px}.month-nav button{width:36px;height:36px;border:1px solid var(--line);background:#fff;border-radius:12px;color:#577271;font-size:18px}.weekdays,.calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}.weekdays div{text-align:center;color:#9aa0b2;font-size:11px;padding:6px 0}.day{border:0;background:transparent;min-height:47px;border-radius:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:#53596e;font-size:13px;position:relative}.day.outside{color:#c8cbd6}.day.selected{background:#e1f1ef;color:var(--primary);font-weight:800}.day.today:not(.selected){box-shadow:inset 0 0 0 1px #9acbc4}.day-dot{width:5px;height:5px;border-radius:50%;background:transparent}.day.has-record .day-dot{background:var(--green)}.day.selected .day-dot{background:var(--primary)}.selected-summary{margin-top:15px;padding:15px;background:#f0f7f5;border-radius:16px}.selected-summary h4{margin:0 0 8px;font-size:14px}.selected-summary p{margin:0;color:var(--muted);font-size:12px;line-height:1.6}
+.chart{display:flex;align-items:end;gap:10px;height:155px;padding:15px 4px 0}.bar-col{height:100%;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:end;gap:8px}.bar-value{font-size:10px;color:var(--muted)}.bar{width:min(28px,70%);min-height:4px;border-radius:8px 8px 4px 4px;background:linear-gradient(180deg,#91cfca,#4b9d9a);transition:height .25s}.bar-label{font-size:10px;color:var(--muted)}.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat-grid .stat{background:#f4f9f8}
+.form-row{display:flex;gap:9px;margin:13px 0}.input{width:100%;min-width:0;border:1px solid #d5e4e1;background:#fff;border-radius:13px;padding:12px 13px;color:var(--text)}.primary-btn{border:0;border-radius:13px;padding:12px 16px;background:var(--primary);color:#fff;font-weight:700;white-space:nowrap;box-shadow:0 6px 14px rgba(52,143,145,.20)}.secondary-btn{border:1px solid var(--line);border-radius:12px;background:#fff;color:#577271;padding:9px 12px;font-size:12px}.manage-item{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}.manage-item:last-child{border-bottom:0}.manage-item .emoji{font-size:20px;width:32px}.manage-item .info{flex:1;min-width:0}.manage-item strong{font-size:13px}.manage-item small{display:block;color:var(--muted);margin-top:3px}.danger{color:#d84d61}
+nav{position:fixed;z-index:10;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,760px);padding:10px 18px calc(10px + env(safe-area-inset-bottom));background:rgba(242,249,247,.96);backdrop-filter:blur(18px);border-top:1px solid #d5e4e1;display:grid;grid-template-columns:repeat(5,1fr);gap:4px}.nav-btn{border:0;background:transparent;color:#989db0;border-radius:14px;min-height:53px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:10px}.nav-btn .nav-icon{font-size:20px;line-height:1.1}.nav-btn.active{color:var(--primary);background:#e1f1ef;font-weight:700}
+.toast{position:fixed;z-index:20;left:50%;bottom:calc(94px + env(safe-area-inset-bottom));transform:translate(-50%,10px);opacity:0;pointer-events:none;background:#24494a;color:white;border-radius:12px;padding:11px 16px;font-size:12px;box-shadow:var(--shadow);transition:all .2s;white-space:nowrap}.toast.show{opacity:1;transform:translate(-50%,0)}.modal-backdrop{position:fixed;z-index:30;inset:0;background:#161a2c70;display:none;align-items:end;justify-content:center;padding:15px}.modal-backdrop.open{display:flex}.modal{background:white;width:min(100%,520px);border-radius:24px;padding:22px;box-shadow:0 25px 80px #0002}.modal h3{margin:0 0 5px;font-size:18px}.modal p{margin:0 0 15px;font-size:12px;color:var(--muted)}.modal-actions{display:flex;gap:9px;margin-top:15px}.modal-actions>*{flex:1}
+
+.daily-guide{margin-top:17px;padding:17px!important;background:linear-gradient(145deg,#fff 0%,#f8f9ff 100%)!important;border-color:#e5e8f6!important}.guide-head{display:flex;align-items:center;justify-content:space-between}.guide-kicker{font-size:9px;letter-spacing:1.4px;color:#8490c8;font-weight:800}.guide-head h3{font-size:18px;margin:4px 0 0}.guide-date{font-size:11px;color:#697bc8;background:#edf0ff;border-radius:9px;padding:7px 9px}.guide-disclaimer{font-size:10px!important;line-height:1.6!important;color:#9298aa!important;margin:9px 0 12px!important}.guide-tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;border-bottom:1px solid #e6e8f2;padding-bottom:8px}.guide-tab{border:0;background:transparent;border-radius:10px;padding:9px 2px;color:#777e91;font-size:12px}.guide-tab.active{color:#596fc2;background:#edf0ff;font-weight:800}.guide-score{display:flex;align-items:center;gap:14px;background:#f0f3ff;border:1px solid #e4e8ff;border-radius:17px;padding:15px;margin-top:13px}.guide-number{display:flex;align-items:baseline;gap:4px;white-space:nowrap;color:#5c75d0}.guide-number strong{font-size:38px;line-height:1;font-weight:750}.guide-number small{font-size:10px;color:#838ba9}.guide-summary{display:flex;flex-direction:column;gap:5px;min-width:0}.guide-summary strong{font-size:14px;color:#313957}.guide-summary span{font-size:11px;line-height:1.6;color:#747d98}.guide-facts{padding:4px 2px}.guide-fact{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #eff0f6}.guide-fact:last-child{border-bottom:0}.guide-symbol{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#eef0fb;color:#687dcc;font-size:17px;flex-shrink:0}.guide-fact div{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}.guide-fact small{font-size:10px;color:#9399aa}.guide-fact strong{font-size:12px;color:#424960;font-weight:600}.guide-fact b{font-size:12px;font-weight:600;color:#6d80cb}.guide-bottom{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:8px}.guide-bottom div{display:flex;flex-direction:column;gap:6px;padding:12px;border-radius:13px;background:#f6f7fc}.guide-bottom div:last-child{background:#f7f7fa}.guide-bottom span{font-size:10px;color:#8a90a4}.guide-bottom strong{font-size:11px;line-height:1.5;color:#6475b8;font-weight:650}.guide-bottom div:last-child strong{color:#777d8f}
+@media(max-width:380px){.daily-guide{padding:13px!important}.guide-score{gap:10px;padding:12px}.guide-number strong{font-size:32px}.guide-tab{font-size:11px}.guide-bottom{gap:6px}.guide-bottom div{padding:10px}}
+
+@media(min-width:600px){.app{padding-left:26px;padding-right:26px}.task-list{grid-template-columns:1fr 1fr}.hero{padding:26px}.calendar-grid{gap:8px}.day{min-height:55px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;scroll-behavior:auto!important}}
+
+/* Warm editorial palette: quiet, soft contrast, no vivid green */
+.hero{box-shadow:0 16px 32px rgba(92,68,91,.13)}
+.task{border-color:#eee5e0}
+.task.done .check{background:#4c9c9c;border-color:#4c9c9c}
+.check{border-color:#e4d9d6}
+.repeat-note{color:#3e8585;background:#e6f3f1}
+.detail-notes{background:#f0f7f5;border-color:#d3e8e5;border-left-color:#4c9c9c;color:#294344}
+.detail-notes:before{color:#4c9c9c}
+.daily-guide{background:linear-gradient(145deg,#fbfefd 0%,#eaf5f3 100%)!important;border-color:#d5e9e6!important}
+.guide-date{color:#3e8585;background:#e0f1ef}
+.guide-tab.active{color:#367f80;background:#e0f1ef}
+.guide-score{background:#e7f4f2;border-color:#d8eae7}
+.guide-number{color:#4c9c9c}
+.guide-symbol{background:#e0f1ef;color:#4c9c9c}
+.guide-fact b,.guide-bottom strong{color:#4c9c9c}
+.nav-btn.active{color:#4c9c9c;background:#e3f1ef}
+.day.selected{background:#e0f1ef;color:#4c9c9c}
+.day-dot{background:transparent}.day.has-record .day-dot{background:#4c9c9c}
+.primary-btn{background:#4c9c9c;box-shadow:0 6px 14px rgba(128,107,134,.20)}
+.progress-fill{background:#d9efeb}
+.ring:before{background:#348f91}
+/* Image uploads stay available. The add/edit form shows clean status text only; saved images remain viewable in task details. */
+.image-attach{margin-top:12px;padding:13px;border:1px dashed #b9d8d4;border-radius:14px;background:#f3f9f8}
+.image-attach label{display:block;font-size:12px;font-weight:700;margin-bottom:7px;color:#3c6e6e}
+.image-attach small{display:block;color:#718684;font-size:12px;line-height:1.7;margin-top:8px}
+.image-status{font-size:12px;color:#4c9c9c;margin-top:7px;min-height:18px}
+.finance-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.finance-grid>div{background:#fff;border:1px solid #e0ebe7;border-radius:12px;padding:11px;display:flex;flex-direction:column;gap:5px}.finance-grid span,.finance-grid small{font-size:11px;color:var(--muted);line-height:1.5}.finance-grid strong{font-size:13px;color:#3e8585}.fortune-profile{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.fortune-profile .field-label{display:block;font-size:11px;color:var(--muted);margin-bottom:6px}
+.fortune-profile .input{padding:10px;font-size:13px}
+.fortune-detail{margin-top:13px;padding:15px;border-radius:16px;background:#f0f8f6;border:1px solid #dcece9}
+.fortune-detail h4{font-size:14px;margin:0 0 8px;color:#315d5d}
+.fortune-detail p{font-size:12px;line-height:1.8;color:#536b6a;margin:0}
+.fortune-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.fortune-tags span{background:#e3f1ef;border-radius:999px;padding:6px 9px;color:#3e8585;font-size:11px}
+.guide-tabs{grid-template-columns:repeat(4,minmax(0,1fr));row-gap:5px}
+@media(max-width:380px){.fortune-profile{grid-template-columns:1fr}.guide-tabs{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
+.detail-image-wrap{margin-top:14px;padding:12px;border-radius:16px;background:#edf7f5;border:1px solid #d3e9e5}.detail-image-title{font-size:14px;font-weight:750;color:#326b6b;margin-bottom:10px}.detail-image-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.detail-image{display:block;width:100%;max-height:260px;object-fit:contain;border-radius:12px;background:#e0eeeb;cursor:zoom-in}.detail-image-hint{font-size:11px;color:#718987;text-align:center;margin-top:8px}.image-viewer{position:fixed;inset:0;z-index:60;background:rgba(13,35,36,.92);display:none;align-items:center;justify-content:center;padding:18px}.image-viewer.open{display:flex}.image-viewer img{max-width:100%;max-height:88dvh;object-fit:contain;border-radius:8px}.image-viewer button{position:absolute;right:18px;top:calc(18px + env(safe-area-inset-top));border:1px solid #ffffff55;background:#ffffff18;color:white;border-radius:12px;padding:9px 13px;font-size:14px}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="brand"><div class="logo">✓</div><div><h1>日常打卡助手</h1><p>把小习惯，变成好日常</p></div></div><button class="icon-btn" id="settingsShortcut" aria-label="任务管理">⚙</button></header>
+<main>
+<section class="view active" id="homeView">
+<div class="greeting" id="greeting">今天也为自己积累一点进步</div>
+<div class="date-title"><h2 id="homeDate">今天</h2><div class="sub" id="homeWeekday"></div></div>
+<div class="hero"><div class="hero-top"><div><div class="hero-label">今日完成进度</div><div class="hero-count"><span id="doneCount">0</span> <small>/ <span id="totalCount">0</span> 项任务</small></div></div><div class="ring" id="progressRing"><span id="progressPct">0%</span></div></div><div class="progress-track"><div class="progress-fill" id="progressFill"></div></div><div class="hero-foot"><span id="heroMessage">从一个小目标开始</span><span id="remainingText">还剩 0 项</span></div></div>
+<div class="section-head"><h3>今天的任务</h3><button class="text-btn" id="addTaskShortcut">＋ 添加任务</button></div>
+<div class="task-list" id="todayTasks"></div>
+
+<div class="quick-stats"><div class="stat"><div class="stat-label">🔥 连续打卡</div><div class="stat-value"><span id="streakValue">0</span><small> 天</small></div><div class="stat-note">每天一点点进步</div></div><div class="stat"><div class="stat-label">📆 本月完成率</div><div class="stat-value"><span id="monthRate">0</span><small>%</small></div><div class="stat-note">坚持会看得见</div></div></div>
+</section>
+<section class="view" id="fortuneView">
+<div class="section-head"><h3>命理 · 星象 · 农历</h3><span>综合参考</span></div>
+<p class="panel" style="font-size:12px;line-height:1.8;color:var(--muted);margin:0 0 14px">把西方星座、中国农历、生肖与传统黄历内容放在同一个独立页面。可按分类查看；内容用于文化体验与自我规划，不是确定预测。</p>
+<div class="daily-guide panel" aria-label="命理与每日参考"><div class="guide-head"><div><div class="guide-kicker">ASTROLOGY · LUNAR CALENDAR</div><h3>每日星象与传统历法</h3></div><span class="guide-date" id="guideDate">今日</span></div>
+<div class="fortune-profile"><div><label class="field-label" for="birthDate">出生日期（可选，用于星座/生肖）</label><input class="input" type="date" id="birthDate"></div><div><label class="field-label" for="fortuneRegion">参考体系</label><select class="input" id="fortuneRegion"><option value="mix">综合参考</option><option value="western">西方星座</option><option value="lunar">中国农历</option><option value="zodiac">生肖五行</option></select></div></div>
+<div class="fortune-profile"><div><label class="field-label" for="birthTime">出生时间（可选）</label><input class="input" type="time" id="birthTime"></div><div><label class="field-label" for="birthPlace">出生地点（可选）</label><input class="input" id="birthPlace" maxlength="60" placeholder="例如：上海"></div></div>
+<div class="panel fortune-finance" style="margin:12px 0;padding:15px;background:#f1f7f5;border-color:#d9e9e4"><div style="font-weight:800;margin-bottom:10px">财运参考</div><div class="finance-grid"><div><span>理财规划</span><strong id="financeScore">稳健参考</strong><small id="financePlan">先核对预算与必要支出</small></div><div><span>消费提醒</span><strong id="financeCaution">理性决策</strong><small>不把运势内容当作投资建议</small></div></div></div>
+<div class="guide-tabs" role="tablist" aria-label="命理分类"><button class="guide-tab active" data-guide="day" role="tab">今日运势</button><button class="guide-tab" data-guide="zodiac" role="tab">十二星座</button><button class="guide-tab" data-guide="lunar" role="tab">农历黄历</button><button class="guide-tab" data-guide="animal" role="tab">生肖五行</button><button class="guide-tab" data-guide="star" role="tab">星盘入门</button><button class="guide-tab" data-guide="tarot" role="tab">塔罗主题</button><button class="guide-tab" data-guide="direction" role="tab">方位建议</button><button class="guide-tab" data-guide="finance" role="tab">财运参考</button></div>
+<div class="guide-score"><div class="guide-number"><strong id="guideScore">88</strong><small>参考分</small></div><div class="guide-summary"><strong id="guideTitle">适合稳步推进</strong><span id="guideSubtitle">先完成一件重要的小事，再处理零碎事项。</span></div></div>
+<div class="guide-facts"><div class="guide-fact"><span class="guide-symbol">◷</span><div><small id="guideFact1Label">今日节奏</small><strong id="guideFact1">循序渐进</strong></div><b id="guideFact1Mark">宜</b></div><div class="guide-fact"><span class="guide-symbol">✦</span><div><small id="guideFact2Label">专注建议</small><strong id="guideFact2">一次专注一件事</strong></div><b id="guideFact2Mark">佳</b></div><div class="guide-fact"><span class="guide-symbol">⌁</span><div><small id="guideFact3Label">温馨提醒</small><strong id="guideFact3">给休息留出时间</strong></div><b id="guideFact3Mark">记</b></div></div>
+<div class="guide-bottom"><div><span>适合尝试</span><strong id="guideGood">学习 · 整理 · 复盘</strong></div><div><span>可以留意</span><strong id="guideAvoid">分心 · 过度安排</strong></div></div>
+<div class="fortune-detail"><h4 id="fortuneExtraTitle">今日农历与星象信息</h4><p id="fortuneExtra">正在整理今日参考信息。</p><div class="fortune-tags" id="fortuneTags"></div></div>
+</div>
+<div class="panel" style="margin-top:14px;font-size:12px;line-height:1.8;color:var(--muted)"><strong style="display:block;color:var(--text);font-size:14px;margin-bottom:6px">关于内容准确性</strong>农历日期优先使用设备浏览器支持的中国历法格式；星座根据出生日期划分，生肖为年份对应的传统分类。这里的分数、宜忌和解读属于娱乐与自我反思内容，不代表科学结论或未来保证。</div>
+</section>
+<section class="view" id="calendarView">
+<div class="section-head"><h3>打卡日历</h3><span>点选日期查看记录</span></div>
+<div class="calendar-card"><div class="month-head"><strong id="calendarMonth"></strong><div class="month-nav"><button id="prevMonth" aria-label="上个月">‹</button><button id="nextMonth" aria-label="下个月">›</button></div></div><div class="weekdays"><div>日</div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div></div><div class="calendar-grid" id="calendarGrid"></div><div class="selected-summary" id="selectedSummary"></div></div>
+<div class="section-head"><h3>状态说明</h3></div><div class="panel" style="font-size:12px;color:var(--muted);line-height:2">🟢 有完成记录　　紫色底色：当前选中日期<br>日历会根据实际打卡记录自动更新。</div>
+</section>
+<section class="view" id="statsView">
+<div class="section-head"><h3>习惯统计</h3><span>基于你的打卡记录</span></div>
+<div class="stat-grid"><div class="stat"><div class="stat-label">累计完成次数</div><div class="stat-value" id="allDone">0</div></div><div class="stat"><div class="stat-label">累计打卡天数</div><div class="stat-value" id="activeDays">0</div></div><div class="stat"><div class="stat-label">本周完成次数</div><div class="stat-value" id="weekDone">0</div></div><div class="stat"><div class="stat-label">本月完成次数</div><div class="stat-value" id="monthDone">0</div></div></div>
+<div class="section-head"><h3>最近 7 天</h3><span>每日完成次数</span></div><div class="panel"><div class="chart" id="weekChart"></div></div>
+<div class="section-head"><h3>数据管理</h3></div><div class="panel"><p style="font-size:12px;color:var(--muted);line-height:1.7;margin-top:0">数据默认保存在当前浏览器。建议定期导出备份；清理浏览器数据或更换设备可能导致记录无法找回。</p><div class="form-row"><button class="primary-btn" id="exportBtn" style="flex:1">导出备份 JSON</button><button class="secondary-btn" id="importBtn">导入备份</button><input id="importFile" type="file" accept=".json,application/json" hidden></div><button class="secondary-btn danger" id="clearDataBtn">清除全部本地数据</button></div>
+</section>
+<section class="view" id="manageView">
+<div class="section-head"><h3>管理任务</h3><span>按你的节奏调整习惯</span></div>
+<div class="panel"><form id="taskForm"><label for="taskName" style="font-size:12px;color:var(--muted)">任务名称</label><div class="form-row"><input class="input" id="taskName" maxlength="40" placeholder="例如：阅读 20 分钟" required><button class="primary-btn" type="submit" id="saveTaskBtn">添加</button></div><div class="form-row"><div style="flex:1"><label for="taskTime" style="font-size:12px;color:var(--muted)">目标时间（可选）</label><input class="input" id="taskTime" type="time"></div><div style="flex:1"><label for="taskRepeat" style="font-size:12px;color:var(--muted)">重复规则</label><select class="input" id="taskRepeat"><option value="daily">每天重复（默认）</option><option value="weekdays">仅工作日</option><option value="weekends">仅周末</option><option value="once">只做一次</option></select></div></div><label for="taskNotes" style="font-size:12px;color:var(--muted)">任务补充说明（可选）</label><textarea class="input" id="taskNotes" rows="3" maxlength="600" placeholder="例如：今天要读完第 3 章，重点整理 5 个知识点" style="margin-top:7px;resize:vertical;line-height:1.6"></textarea><div class="image-attach"><label for="taskImageInput">任务图片（可选）</label><input class="input" id="taskImageInput" type="file" accept="image/*" multiple><div class="image-status" id="taskImageStatus">未添加图片</div><small>支持一次选择多张图片。这里不显示缩略图，保存后可在任务详情中逐张查看。</small><button type="button" class="secondary-btn" id="removeTaskImage" style="margin-top:8px">移除已添加图片</button></div><input id="editTaskId" type="hidden"></form></div>
+<div class="section-head"><h3>你的任务</h3><span id="taskManageCount">0 项</span></div><div class="panel" id="manageList"></div>
+<div class="section-head"><h3>使用提示</h3></div><div class="panel" style="font-size:12px;color:var(--muted);line-height:1.8">• 打卡状态按日期分别保存。<br>• 编辑任务不会删除该任务的历史打卡记录。<br>• 当前版本数据保存在本设备浏览器中，不会自动同步到其他设备。</div>
+</section>
+</main>
+</div>
+<nav aria-label="主导航"><button class="nav-btn active" data-view="home"><span class="nav-icon">⌂</span><span>首页</span></button><button class="nav-btn" data-view="fortune"><span class="nav-icon">✦</span><span>运势</span></button><button class="nav-btn" data-view="calendar"><span class="nav-icon">▦</span><span>日历</span></button><button class="nav-btn" data-view="stats"><span class="nav-icon">▥</span><span>统计</span></button><button class="nav-btn" data-view="manage"><span class="nav-icon">☷</span><span>任务</span></button></nav>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal"><h3 id="modalTitle">确认操作</h3><p id="modalText"></p><div class="modal-actions"><button class="secondary-btn" id="modalCancel">取消</button><button class="primary-btn" id="modalConfirm">确认</button></div></div></div>
+<div class="modal-backdrop" id="taskDetailBackdrop" role="dialog" aria-modal="true" aria-labelledby="detailTitle"><div class="modal task-detail-modal"><h3 id="detailTitle">任务详情</h3><div id="taskDetailContent"></div><div class="modal-actions"><button class="secondary-btn" id="detailClose">关闭</button><button class="primary-btn" id="detailEdit">编辑任务</button></div></div></div><div class="image-viewer" id="imageViewer" role="dialog" aria-label="任务图片大图"><button type="button" id="imageViewerClose">关闭</button><img id="imageViewerImg" alt="任务图片大图"></div>
+<script>
+(() => {
+'use strict';
+const $ = id => document.getElementById(id);
+const KEY = 'daily-checkin-assistant-v1';
+const todayKey = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const parseDate = s => { const [y,m,d]=s.split('-').map(Number); return new Date(y,m-1,d); };
+const sameMonth = (a,b) => a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth();
+const defaults = [
+{id:'read',name:'阅读 20 分钟',emoji:'📚',time:'21:00'},
+{id:'move',name:'运动一下',emoji:'🏃',time:'18:00'},
+{id:'water',name:'补充水分',emoji:'💧',time:''},
+{id:'mind',name:'放松与冥想',emoji:'🧘',time:'22:00'}
+];
+let state = loadState(), selectedDate = new Date(), calendarMonth = new Date(), toastTimer, modalAction = null, draftTaskImages=[];
+function loadState(){
+ try { const s=JSON.parse(localStorage.getItem(KEY)); if(s && Array.isArray(s.tasks) && s.records && typeof s.records==='object') { if(!s.photos || typeof s.photos!=='object') s.photos={}; s.tasks=s.tasks.map(t=>({...t,repeat:t.repeat||'daily',images:Array.isArray(t.images)?t.images:(t.image?[t.image]:[]),image:t.image||'',notes:t.notes||''})); return s; } } catch(e){}
+ return {tasks:defaults.map(t=>({...t,repeat:'daily',image:'',images:[],notes:''})),records:{},photos:{}};
+}
+function save(){ try { localStorage.setItem(KEY,JSON.stringify(state)); } catch(e){ showToast('图片可能太大或本地空间不足，请换小图后重试'); } }
+function taskAppliesToday(t,date=new Date()){const r=t.repeat||'daily';if(r==='weekdays')return date.getDay()>=1&&date.getDay()<=5;if(r==='weekends')return date.getDay()===0||date.getDay()===6;if(r==='once')return !Object.values(state.records).some(ids=>Array.isArray(ids)&&ids.includes(t.id));return true}
+function tasksForDate(date=new Date()){return state.tasks.filter(t=>taskAppliesToday(t,date))}
+function repeatLabel(t){return ({daily:'每天重复',weekdays:'仅工作日',weekends:'仅周末',once:'只做一次'})[t.repeat||'daily']}
+function compressImage(file,max=700,quality=.68){return new Promise((resolve,reject)=>{if(!file||!file.type.startsWith('image/'))return reject(Error('请选择图片'));const reader=new FileReader();reader.onerror=reject;reader.onload=()=>{const img=new Image();img.onerror=reject;img.onload=()=>{const scale=Math.min(1,max/Math.max(img.width,img.height));const c=document.createElement('canvas');c.width=Math.round(img.width*scale);c.height=Math.round(img.height*scale);c.getContext('2d').drawImage(img,0,0,c.width,c.height);resolve(c.toDataURL('image/jpeg',quality))};img.src=reader.result};reader.readAsDataURL(file)})}
+function proofFor(date,id){return state.photos?.[date]?.[id]||''}
+function keyToday(){return todayKey(new Date())}
+function recordsFor(date){return state.records[typeof date==='string'?date:todayKey(date)] || []}
+function isDone(taskId,date=keyToday()){return recordsFor(date).includes(taskId)}
+function doneCount(date=keyToday()){return state.tasks.filter(t=>isDone(t.id,date)).length}
+function pct(n,total){return total?Math.round(n/total*100):0}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function fmtDate(d,opts={month:'long',day:'numeric'}){return new Intl.DateTimeFormat('zh-CN',opts).format(d)}
+function showToast(message){const el=$('toast');el.textContent=message;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2100)}
+function setView(view){document.querySelectorAll('.view').forEach(el=>el.classList.toggle('active',el.id===view+'View'));document.querySelectorAll('.nav-btn').forEach(el=>el.classList.toggle('active',el.dataset.view===view));if(view==='fortune')renderGuide();if(view==='calendar')renderCalendar();if(view==='stats')renderStats();if(view==='manage')renderManage();window.scrollTo({top:0,behavior:'smooth'})}
+function renderHome(){
+ const now=new Date(), key=keyToday(), todays=tasksForDate(now), n=todays.filter(t=>isDone(t.id,key)).length, total=todays.length, p=pct(n,total);
+ $('homeDate').textContent=fmtDate(now,{month:'long',day:'numeric'});
+ $('homeWeekday').textContent=new Intl.DateTimeFormat('zh-CN',{weekday:'long'}).format(now);
+ $('greeting').textContent=now.getHours()<11?'早上好，开启轻盈的一天':now.getHours()<18?'今天也为自己积累一点进步':'辛苦了，别忘了照顾自己';
+ $('doneCount').textContent=n;$('totalCount').textContent=total;$('progressPct').textContent=p+'%';$('progressRing').style.setProperty('--progress',p+'%');$('progressFill').style.width=p+'%';$('heroMessage').textContent=total===0?'添加一个小目标开始吧':n===total?'太棒了，今日任务全部完成！':'稳稳地完成每一个小目标';$('remainingText').textContent='还剩 '+Math.max(0,total-n)+' 项';
+ const list=$('todayTasks');
+ if(!total){list.innerHTML='<div class="empty">还没有打卡任务。<br>添加一个小目标，开始建立自己的节奏吧。</div>'}
+ else list.innerHTML=todays.map(t=>{const done=isDone(t.id,key);return `<article class="task ${done?'done':''}" data-task-detail="${escapeHtml(t.id)}" tabindex="0" role="button" aria-label="查看${escapeHtml(t.name)}详情"><div class="task-main"><div class="task-name">${escapeHtml(t.name)}</div><div class="task-meta">${done?'今天已完成':t.time?'目标时间 '+escapeHtml(t.time):'点开查看任务详情'}</div><span class="repeat-note">${repeatLabel(t)}</span></div><div class="task-actions"><button class="check" data-toggle="${escapeHtml(t.id)}" aria-label="${done?'取消':'完成'}${escapeHtml(t.name)}" aria-pressed="${done}">${done?'✓':''}</button></div></article>`}).join('');
+ $('streakValue').textContent=calcStreak();$('monthRate').textContent=monthRate(now);
+}
+function iconBg(emoji){const map={'📚':'#eeefff','🏃':'#fff0e7','💧':'#e7f5ff','🧘':'#e8f8f0','✍️':'#fff3df','🌙':'#efebff','🎯':'#ffe9ef','🎨':'#fff0e7','🎸':'#f1eaff','🥗':'#e8f8e9','🧹':'#e8f4ff','💊':'#ffeded','🌱':'#e8f8e9','📝':'#fff5e5'};return map[emoji]||'#f0f1ff'}
+function toggleTask(id,date=keyToday()){
+ if(!state.tasks.some(t=>t.id===id))return;
+ const key=typeof date==='string'?date:todayKey(date), arr=recordsFor(key).slice(), idx=arr.indexOf(id);
+ if(idx>=0){arr.splice(idx,1);showToast('已取消打卡')}
+ else {arr.push(id);showToast('打卡成功，继续保持 ✨')}
+ if(arr.length)state.records[key]=arr;else delete state.records[key];
+ save();renderAll();
+}
+function calcStreak(){
+ if(!state.tasks.length)return 0;let d=new Date(),count=0;
+ if(doneCountForDate(d)<tasksForDate(d).length)d.setDate(d.getDate()-1);
+ for(let i=0;i<3660;i++){const applicable=tasksForDate(d);if(applicable.length&&doneCountForDate(d)>=applicable.length){count++;d.setDate(d.getDate()-1)}else break}
+ return count;
+}
+function doneCountForDate(d){const k=todayKey(d);return tasksForDate(d).filter(t=>isDone(t.id,k)).length}
+function monthRate(date){const year=date.getFullYear(),month=date.getMonth(),days=date.getDate();let done=0,total=0;for(let day=1;day<=days;day++){const d=new Date(year,month,day),ts=tasksForDate(d);total+=ts.length;done+=ts.filter(t=>isDone(t.id,todayKey(d))).length}return pct(done,total)}
+function renderCalendar(){
+ $('calendarMonth').textContent=fmtDate(calendarMonth,{year:'numeric',month:'long'});
+ const first=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth(),1), start=new Date(first);start.setDate(1-first.getDay());
+ const grid=$('calendarGrid'), today=keyToday(), selected=todayKey(selectedDate);let html='';
+ for(let i=0;i<42;i++){const d=new Date(start);d.setDate(start.getDate()+i);const k=todayKey(d), outside=!sameMonth(d,calendarMonth), has=doneCount(k)>0;html+=`<button class="day ${outside?'outside':''} ${k===selected?'selected':''} ${k===today?'today':''} ${has?'has-record':''}" data-date="${k}" aria-label="${k}${has?'，有打卡记录':''}"><span>${d.getDate()}</span><i class="day-dot"></i></button>`}
+ grid.innerHTML=html;
+ const selectedTasks=tasksForDate(selectedDate),n=selectedTasks.filter(t=>isDone(t.id,selected)).length,total=selectedTasks.length,dateLabel=fmtDate(selectedDate,{year:'numeric',month:'long',day:'numeric',weekday:'long'});
+ $('selectedSummary').innerHTML=`<h4>${dateLabel}</h4><p>${total?`完成 ${n}/${total} 项任务（${pct(n,total)}%）${n?' · 已有打卡记录':' · 暂无完成记录'}`:'还没有设置任务。前往「任务」添加你的习惯吧。'}</p>`;
+}
+function renderStats(){
+ const now=new Date(), key=keyToday(), month=now.getMonth(),year=now.getFullYear();
+ let all=0, active=new Set(), week=0, monthN=0;
+ for(const [date,ids] of Object.entries(state.records)){const valid=Array.isArray(ids)?ids.filter(id=>state.tasks.some(t=>t.id===id)):[];all+=valid.length;if(valid.length)active.add(date);const d=parseDate(date);if(!Number.isNaN(d.getTime())){const dayDiff=Math.floor((new Date(now.getFullYear(),now.getMonth(),now.getDate())-new Date(d.getFullYear(),d.getMonth(),d.getDate()))/86400000);if(dayDiff>=0&&dayDiff<7)week+=valid.length;if(d.getFullYear()===year&&d.getMonth()===month)monthN+=valid.length}}
+ $('allDone').textContent=all;$('activeDays').textContent=active.size;$('weekDone').textContent=week;$('monthDone').textContent=monthN;
+ const chart=$('weekChart');let data=[];for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);data.push({d,n:doneCount(todayKey(d))})}const max=Math.max(1,...data.map(x=>x.n));
+ chart.innerHTML=data.map(x=>`<div class="bar-col"><span class="bar-value">${x.n}</span><div class="bar" style="height:${Math.max(4,x.n/max*100)}%"></div><span class="bar-label">${new Intl.DateTimeFormat('zh-CN',{weekday:'short'}).format(x.d)}</span></div>`).join('');
+}
+function renderManage(){
+ $('taskManageCount').textContent=state.tasks.length+' 项';
+ $('manageList').innerHTML=state.tasks.length?state.tasks.map(t=>`<div class="manage-item"><div class="info"><strong>${escapeHtml(t.name)}</strong><small>${t.time?'目标时间 '+escapeHtml(t.time)+' · ':''}${repeatLabel(t)}</small></div><button class="secondary-btn" data-edit="${escapeHtml(t.id)}">编辑</button><button class="secondary-btn danger" data-delete="${escapeHtml(t.id)}">删除</button></div>`).join(''):'<div class="empty">还没有任务，使用上方表单添加吧。</div>';
+}
+function renderAll(){renderHome();if($('calendarView').classList.contains('active'))renderCalendar();if($('statsView').classList.contains('active'))renderStats();if($('manageView').classList.contains('active'))renderManage();if($('fortuneView').classList.contains('active'))renderGuide()}
+function resetTaskForm(){ $('taskForm').reset();$('taskRepeat').value='daily';$('editTaskId').value='';$('saveTaskBtn').textContent='添加';draftTaskImages=[];$('taskImageInput').value='';$('taskImageStatus').textContent='未添加图片';$('removeTaskImage').disabled=true; }
+function ask(title,text,action,label='确认'){ $('modalTitle').textContent=title;$('modalText').textContent=text;$('modalConfirm').textContent=label;modalAction=action;$('modalBackdrop').classList.add('open'); }
+function closeModal(){ $('modalBackdrop').classList.remove('open');modalAction=null; }
+document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view)));
+$('settingsShortcut').addEventListener('click',()=>setView('manage'));
+$('addTaskShortcut').addEventListener('click',()=>{setView('manage');$('taskName').focus()});
+function openTaskDetail(id){const t=state.tasks.find(x=>x.id===id);if(!t)return;const key=keyToday(),done=isDone(id,key);$('detailTitle').textContent=t.name;$('taskDetailContent').innerHTML=`<div class="detail-line"><span class="detail-label">今日状态</span><strong>${done?'已完成':'尚未完成'}</strong></div><div class="detail-line"><span class="detail-label">重复规则</span><strong>${repeatLabel(t)}</strong></div><div class="detail-line"><span class="detail-label">目标时间</span><strong>${t.time?escapeHtml(t.time):'未设置'}</strong></div>${t.notes?`<div class="detail-notes">${escapeHtml(t.notes)}</div>`:'<div class="detail-notes">还没有补充说明。点击「编辑任务」添加目标、步骤或提醒自己的内容。</div>'}${((t.images&&t.images.length)?t.images:(t.image?[t.image]:[])).length?`<div class="detail-image-wrap"><div class="detail-image-title">任务图片 · ${((t.images&&t.images.length)?t.images:(t.image?[t.image]:[])).length} 张</div><div class="detail-image-grid">${((t.images&&t.images.length)?t.images:(t.image?[t.image]:[])).map((src,i)=>`<img class="detail-image" src="${src}" alt="${escapeHtml(t.name)}任务图片${i+1}" data-view-image="${t.id}" data-image-index="${i}">`).join('')}</div><div class="detail-image-hint">点击任意图片可查看大图</div></div>`:''}`;$('detailEdit').dataset.editId=id;$('taskDetailBackdrop').classList.add('open')}
+$('todayTasks').addEventListener('click',e=>{const toggle=e.target.closest('[data-toggle]');if(toggle){toggleTask(toggle.dataset.toggle);return}const card=e.target.closest('[data-task-detail]');if(card)openTaskDetail(card.dataset.taskDetail)});
+$('todayTasks').addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-task-detail]')){e.preventDefault();openTaskDetail(e.target.dataset.taskDetail)}});
+$('taskDetailContent').addEventListener('click',e=>{const img=e.target.closest('[data-view-image]');if(img){$('imageViewerImg').src=img.src;$('imageViewer').classList.add('open')}});$('imageViewerClose').addEventListener('click',()=>$('imageViewer').classList.remove('open'));$('imageViewer').addEventListener('click',e=>{if(e.target===$('imageViewer'))$('imageViewer').classList.remove('open')});$('detailClose').addEventListener('click',()=>$('taskDetailBackdrop').classList.remove('open'));$('taskDetailBackdrop').addEventListener('click',e=>{if(e.target===$('taskDetailBackdrop'))$('taskDetailBackdrop').classList.remove('open')});$('detailEdit').addEventListener('click',()=>{const id=$('detailEdit').dataset.editId;$('taskDetailBackdrop').classList.remove('open');setView('manage');const t=state.tasks.find(x=>x.id===id);if(!t)return;$('taskName').value=t.name;$('taskTime').value=t.time||'';$('taskRepeat').value=t.repeat||'daily';$('taskNotes').value=t.notes||'';draftTaskImages=(Array.isArray(t.images)?t.images:(t.image?[t.image]:[])).slice();$('taskImageStatus').textContent=draftTaskImages.length?`已保存 ${draftTaskImages.length} 张图片（可在任务详情查看）`:'未添加图片';$('removeTaskImage').disabled=!draftTaskImages.length;$('editTaskId').value=t.id;$('saveTaskBtn').textContent='保存';window.scrollTo({top:0,behavior:'smooth'})});
+
+$('calendarGrid').addEventListener('click',e=>{const b=e.target.closest('[data-date]');if(!b)return;selectedDate=parseDate(b.dataset.date);renderCalendar()});
+$('prevMonth').addEventListener('click',()=>{calendarMonth.setMonth(calendarMonth.getMonth()-1);renderCalendar()});
+$('nextMonth').addEventListener('click',()=>{calendarMonth.setMonth(calendarMonth.getMonth()+1);renderCalendar()});
+$('taskForm').addEventListener('submit',async e=>{
+ e.preventDefault();const name=$('taskName').value.trim(),time=$('taskTime').value,repeat=$('taskRepeat').value,notes=$('taskNotes').value.trim(),id=$('editTaskId').value;
+ if(!name){showToast('请先填写任务名称');return}
+ if(id){const task=state.tasks.find(t=>t.id===id);if(task)Object.assign(task,{name,time,repeat,notes,images:draftTaskImages.slice(),image:draftTaskImages[0]||''});showToast('任务已更新')}
+ else {if(state.tasks.some(t=>t.name.toLowerCase()===name.toLowerCase())){showToast('已有同名任务');return}state.tasks.push({id:'t_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,6),name,emoji:'',time,repeat,notes,images:draftTaskImages.slice(),image:draftTaskImages[0]||''});showToast('任务添加成功')}
+ save();resetTaskForm();renderAll();
+});
+$('taskImageInput').addEventListener('change',async e=>{const files=Array.from(e.target.files||[]);if(!files.length)return;try{showToast(`正在处理 ${files.length} 张图片…`);const added=[];for(const file of files){added.push(await compressImage(file,1000,.70))}draftTaskImages=draftTaskImages.concat(added);$('taskImageStatus').textContent=`已选择 ${draftTaskImages.length} 张图片（保存后可在任务详情查看）`;$('removeTaskImage').disabled=false;$('taskImageInput').value='';showToast(`已添加 ${added.length} 张图片`)}catch(err){showToast('有图片读取失败，请尝试较小的图片');e.target.value=''}});
+$('removeTaskImage').addEventListener('click',()=>{draftTaskImages=[];$('taskImageInput').value='';$('taskImageStatus').textContent='未添加图片';$('removeTaskImage').disabled=true;showToast('已移除所有任务图片')});
+
+$('manageList').addEventListener('click',e=>{
+ const edit=e.target.closest('[data-edit]'),del=e.target.closest('[data-delete]');
+ if(edit){const t=state.tasks.find(x=>x.id===edit.dataset.edit);if(!t)return;$('taskName').value=t.name;$('taskTime').value=t.time||'';$('taskRepeat').value=t.repeat||'daily';$('taskNotes').value=t.notes||'';draftTaskImages=(Array.isArray(t.images)?t.images:(t.image?[t.image]:[])).slice();$('taskImageStatus').textContent=draftTaskImages.length?`已保存 ${draftTaskImages.length} 张图片（可在任务详情查看）`:'未添加图片';$('removeTaskImage').disabled=!draftTaskImages.length;$('editTaskId').value=t.id;$('saveTaskBtn').textContent='保存';$('taskName').focus();window.scrollTo({top:0,behavior:'smooth'})}
+ if(del){const t=state.tasks.find(x=>x.id===del.dataset.delete);if(!t)return;ask('删除这个任务？',`将删除「${t.name}」任务。历史记录中的该任务打卡也会从统计中排除。`,()=>{state.tasks=state.tasks.filter(x=>x.id!==t.id);for(const k of Object.keys(state.records)){state.records[k]=state.records[k].filter(x=>x!==t.id);if(!state.records[k].length)delete state.records[k]}save();renderAll();showToast('任务已删除')},'删除')}
+});
+$('modalCancel').addEventListener('click',closeModal);$('modalBackdrop').addEventListener('click',e=>{if(e.target===$('modalBackdrop'))closeModal()});
+$('modalConfirm').addEventListener('click',()=>{const fn=modalAction;closeModal();if(fn)fn()});
+$('exportBtn').addEventListener('click',()=>{const blob=new Blob([JSON.stringify({version:1,exportedAt:new Date().toISOString(),...state},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`日常打卡备份-${keyToday()}.json`;a.click();URL.revokeObjectURL(a.href);showToast('备份文件已导出')});
+$('importBtn').addEventListener('click',()=>$('importFile').click());
+$('importFile').addEventListener('change',async e=>{const file=e.target.files[0];if(!file)return;try{const data=JSON.parse(await file.text());if(!Array.isArray(data.tasks)||!data.records||typeof data.records!=='object')throw Error();ask('导入备份？','导入将覆盖当前任务与打卡记录，请先导出当前数据以免丢失。',()=>{state={tasks:data.tasks.filter(t=>t&&typeof t.id==='string'&&typeof t.name==='string').map(t=>({id:t.id,name:t.name,emoji:typeof t.emoji==='string'?t.emoji:'',time:typeof t.time==='string'?t.time:'',repeat:t.repeat||'daily',image:t.image||'',images:Array.isArray(t.images)?t.images:(t.image?[t.image]:[]),notes:t.notes||''})),records:Object.fromEntries(Object.entries(data.records).filter(([k,v])=>/^\d{4}-\d{2}-\d{2}$/.test(k)&&Array.isArray(v)).map(([k,v])=>[k,v.filter(x=>typeof x==='string')])),photos:data.photos&&typeof data.photos==='object'?data.photos:{}};save();renderAll();showToast('备份导入成功')},'导入')}catch(err){showToast('备份文件无效，无法导入')}e.target.value=''});
+
+const guideContent={
+day:{score:88,title:'适合稳步推进',subtitle:'先完成一件重要的小事，再处理零碎事项。',labels:['今日节奏','专注建议','温馨提醒'],facts:['循序渐进','一次专注一件事','给休息留出时间'],marks:['宜','佳','记'],good:'学习 · 整理 · 复盘',avoid:'分心 · 过度安排',extraTitle:'今日行动参考',extra:'今天适合把大任务拆成小步骤，先做一件能明确完成的事。把建议当作规划灵感，不必视为吉凶结论。',tags:['规划','专注','适度休息']},
+zodiac:{score:84,title:'十二星座参考',subtitle:'根据出生日期识别太阳星座，提供轻量的性格与行动提示。',labels:['星座识别','行动建议','沟通提醒'],facts:['填写出生日期以识别星座','先做可控的下一步','表达前先确认对方理解'],marks:['查看','宜','记'],good:'沟通 · 学习 · 创作',avoid:'给自己贴固定标签',extraTitle:'你的太阳星座',extra:'填写上方出生日期后，会显示对应的西方太阳星座。星座内容适合娱乐与自我观察，并不能决定一个人的性格或命运。',tags:['白羊','金牛','双子','巨蟹','狮子','处女','天秤','天蝎','射手','摩羯','水瓶','双鱼']},
+lunar:{score:86,title:'中国农历与黄历',subtitle:'查看设备当前日期对应的农历日期，并了解传统历法文化。',labels:['农历日期','传统参考','生活提醒'],facts:['查看农历月日','宜忌为民俗参考','安排仍以实际情况为准'],marks:['历','俗','记'],good:'整理 · 规划 · 家庭沟通',avoid:'仅凭宜忌做重要决定',extraTitle:'今日农历信息',extra:'当前浏览器若支持中国农历格式，将显示农历月日与干支年份；不同浏览器的历法支持可能不同。',tags:['农历','节气文化','传统黄历']},
+animal:{score:82,title:'生肖与五行文化',subtitle:'以出生年份为入口，浏览传统生肖和五行的文化解释。',labels:['生肖','五行概念','使用建议'],facts:['生肖按传统年份划分','五行是传统文化体系','不用于断定个人能力'],marks:['查阅','了解','记'],good:'了解文化 · 自我反思',avoid:'以生肖给人下结论',extraTitle:'生肖与五行',extra:'填写出生日期后可查看年份对应的生肖。传统生肖与五行的具体推算可能涉及农历新年或立春等不同口径，因此这里只提供简化的文化参考。',tags:['子鼠','丑牛','寅虎','卯兔','辰龙','巳蛇','午马','未羊','申猴','酉鸡','戌狗','亥猪']},
+star:{score:80,title:'星盘入门',subtitle:'西方占星通常会综合太阳、月亮与上升等位置。',labels:['太阳星座','完整星盘','提醒'],facts:['太阳星座只是一部分','完整星盘需要出生时间与地点','占星不属于科学预测方法'],marks:['基础','进阶','知'],good:'记录感受 · 反思习惯',avoid:'用单一标签定义自己',extraTitle:'星盘可以看什么？',extra:'太阳星座常被用于描述自我表达主题；月亮星座在占星传统中关联情绪需求；上升星座常被解读为外在表现。准确排盘通常需要出生日期、出生时间和地点，本应用暂不进行天文级排盘。',tags:['太阳','月亮','上升','行星','宫位']},
+tarot:{score:79,title:'塔罗每日主题',subtitle:'把抽象主题变成一个可执行的自我反思问题。',labels:['今日主题','行动建议','温馨提醒'],facts:['先描述当下问题','寻找自己能影响的部分','不要用抽牌替代专业建议'],marks:['思','宜','记'],good:'写日记 · 整理思路 · 复盘',avoid:'把牌面当成确定预言',extraTitle:'今日反思问题',extra:'如果把今天当成一张象征性的牌，你最需要面对的是什么？写下一个问题，再写一个可以在 15 分钟内完成的小行动。',tags:['觉察','选择','行动']},
+finance:{score:76,title:'财运与消费规划',subtitle:'结合当天的规划主题，关注预算、风险和现金流，不预测收益。',labels:['预算检查','消费提醒','长期规划'],facts:['先核对固定支出','大额消费留出冷静期','定期检查储蓄目标'],marks:['宜','慎','记'],good:'记账 · 比价 · 检查预算',avoid:'冲动消费 · 借贷投机',extraTitle:'今日财务行动建议',extra:'今天可以整理近期账单，区分必要支出和可延后支出。所谓财运分数只是页面的参考主题，不代表真实收益概率，也不是投资建议。',tags:['预算','储蓄','风险意识']},
+direction:{score:84,title:'方位与环境建议',subtitle:'用空间整理和动线调整帮助自己更容易进入状态。',labels:['环境建议','效率建议','温馨提醒'],facts:['桌面只留当前要用的物品','减少视线里的干扰','安排短暂休息'],marks:['宜','佳','记'],good:'收纳 · 阅读 · 计划',avoid:'迷信固定方位能决定结果',extraTitle:'空间与专注',extra:'本页的方位内容侧重环境整理与日常效率，不声称能根据方位准确预测运势。可尝试调整光线、座位舒适度和物品摆放，观察是否更容易专注。',tags:['光线','动线','收纳']}};
+function westernSign(date){if(!date)return '';const d=new Date(date+'T12:00:00');if(Number.isNaN(d.getTime()))return '';const m=d.getMonth()+1,day=d.getDate();return (m===3&&day>=21||m===4&&day<=19)?'白羊座':(m===4&&day>=20||m===5&&day<=20)?'金牛座':(m===5&&day>=21||m===6&&day<=21)?'双子座':(m===6&&day>=22||m===7&&day<=22)?'巨蟹座':(m===7&&day>=23||m===8&&day<=22)?'狮子座':(m===8&&day>=23||m===9&&day<=22)?'处女座':(m===9&&day>=23||m===10&&day<=23)?'天秤座':(m===10&&day>=24||m===11&&day<=22)?'天蝎座':(m===11&&day>=23||m===12&&day<=21)?'射手座':(m===12&&day>=22||m===1&&day<=19)?'摩羯座':(m===1&&day>=20||m===2&&day<=18)?'水瓶座':'双鱼座'}
+function lunarDateText(date){try{return new Intl.DateTimeFormat('zh-CN-u-ca-chinese',{year:'numeric',month:'long',day:'numeric'}).format(date)}catch(e){return '此浏览器暂不支持自动显示农历；可尝试使用较新的 Chrome 浏览器。'}}
+function zodiacAnimal(year){return ['鼠','牛','虎','兔','龙','蛇','马','羊','猴','鸡','狗','猪'][(year-2020+1200)%12]}
+function renderGuide(key='day'){
+ const d=guideContent[key]||guideContent.day,now=new Date(),birth=$('birthDate')?.value||'';$('guideDate').textContent=fmtDate(now,{month:'long',day:'numeric'});$('guideScore').textContent=d.score;$('guideTitle').textContent=d.title;$('guideSubtitle').textContent=d.subtitle;
+ for(let i=1;i<=3;i++){$('guideFact'+i+'Label').textContent=d.labels[i-1];$('guideFact'+i).textContent=d.facts[i-1];$('guideFact'+i+'Mark').textContent=d.marks[i-1]}
+ $('guideGood').textContent=d.good;$('guideAvoid').textContent=d.avoid;$('fortuneExtraTitle').textContent=d.extraTitle;$('fortuneExtra').textContent=d.extra;
+ let tags=d.tags.slice();
+ if(key==='zodiac'){const sign=westernSign(birth);$('guideTitle').textContent=sign||'选择出生日期查看星座';$('guideSubtitle').textContent=sign?`按常见西方太阳星座日期区间，你的太阳星座是${sign}。`:'日期仅用于识别太阳星座，不会上传或发送到网络。';$('fortuneExtra').textContent=sign?`${sign}：可以把常见星座描述当作自我观察的问题，而不是固定性格结论。你可以记录哪些描述符合自己、哪些并不符合。`:'请在上方填写出生日期。星座日期边界可能因年份和时区略有差异。';tags=[sign||'填写生日','太阳星座','自我观察']}
+ if(key==='lunar'){const lunar=lunarDateText(now);$('guideTitle').textContent='今日农历日期';$('guideSubtitle').textContent=lunar;$('guideFact1Label').textContent='今日宜';$('guideFact1').textContent='整理计划 · 读书学习 · 家庭沟通';$('guideFact1Mark').textContent='宜';$('guideFact2Label').textContent='今日忌';$('guideFact2').textContent='冲动决定 · 轻信偏方 · 过度安排';$('guideFact2Mark').textContent='忌';$('guideFact3Label').textContent='传统提示';$('guideFact3').textContent='具体宜忌请以可靠黄历历书核对';$('guideFact3Mark').textContent='记';$('fortuneExtra').textContent=`公历：${fmtDate(now,{year:'numeric',month:'long',day:'numeric',weekday:'long'})}。农历：${lunar}。页面列出的宜忌是日常规划型示例，不冒充精确传统黄历计算；择日、节气与干支宜忌应以可靠历书数据为准。`;tags=[lunar,'今日宜忌参考','传统历法','节气文化']}
+ if(key==='animal'){const yr=birth?Number(birth.slice(0,4)):now.getFullYear();const animal=zodiacAnimal(yr);$('guideTitle').textContent=birth?`生肖参考：${animal}`:'生肖文化';$('guideSubtitle').textContent=birth?`按公历年份简化换算，${yr} 年对应生肖${animal}；临近农历新年出生者需进一步核对。`:'填写出生日期查看简化生肖参考。';$('fortuneExtra').textContent=birth?`你的出生年份为 ${yr}，简化生肖换算为${animal}。由于生肖交界涉及农历新年（部分命理流派采用立春），本结果仅供初步参考。`:'生肖按传统年份划分，出生日期靠近农历新年时，不能只看公历年份直接确定。';tags=[`生肖${animal}`,'农历年界','五行文化']}
+ if(key==='star'&&birth){const yr=Number(birth.slice(0,4)),animal=zodiacAnimal(yr),lunarBirth=lunarDateText(new Date(birth+'T12:00:00'));const bt=$('birthTime')?.value||'',bp=$('birthPlace')?.value.trim()||'';$('guideTitle').textContent='你的出生信息参考';$('guideSubtitle').textContent=`太阳星座：${westernSign(birth)} · 简化生肖：${animal}`;$('fortuneExtra').textContent=`出生日期：${birth}；浏览器换算农历：${lunarBirth}；太阳星座：${westernSign(birth)}；简化生肖：${animal}。${bt?'已记录出生时间：'+bt+'。':''}${bp?'已记录出生地点：'+bp+'。':''}目前本应用只做日期层面的基础识别，尚未计算月亮星座、上升星座或完整八字；生肖交界也需要结合具体历法核对。`;tags=[westernSign(birth),`生肖${animal}`,lunarBirth,bt?'已填写出生时间':'可补充出生时间',bp?'已填写出生地点':'可补充出生地点']}
+ if(key==='finance'){$('financeScore').textContent='规划优先';$('financePlan').textContent='先看预算、固定支出与储蓄目标';$('financeCaution').textContent='避免冲动决策'}else{$('financeScore').textContent='稳健参考';$('financePlan').textContent='先核对预算与必要支出';$('financeCaution').textContent='理性决策'}$('fortuneTags').innerHTML=tags.map(x=>`<span>${escapeHtml(x)}</span>`).join('');document.querySelectorAll('.guide-tab').forEach(b=>{const active=b.dataset.guide===key;b.classList.toggle('active',active);b.setAttribute('aria-selected',String(active))})
+}
+document.querySelectorAll('.guide-tab').forEach(b=>b.addEventListener('click',()=>renderGuide(b.dataset.guide)));
+$('birthDate').addEventListener('change',()=>{const active=document.querySelector('.guide-tab.active')?.dataset.guide||'day';renderGuide(active);try{localStorage.setItem('daily-checkin-birth-date',$('birthDate').value)}catch(e){}});
+$('fortuneRegion').addEventListener('change',()=>{const v=$('fortuneRegion').value;renderGuide(v==='western'?'zodiac':v==='lunar'?'lunar':v==='zodiac'?'animal':'day')});
+try{$('birthDate').value=localStorage.getItem('daily-checkin-birth-date')||'';$('birthTime').value=localStorage.getItem('daily-checkin-birth-time')||'';$('birthPlace').value=localStorage.getItem('daily-checkin-birth-place')||''}catch(e){}
+$('birthTime').addEventListener('change',()=>{try{localStorage.setItem('daily-checkin-birth-time',$('birthTime').value)}catch(e){}});$('birthPlace').addEventListener('change',()=>{try{localStorage.setItem('daily-checkin-birth-place',$('birthPlace').value)}catch(e){}});
+
+$('clearDataBtn').addEventListener('click',()=>ask('清除所有数据？','此操作会删除本浏览器中的任务和全部打卡记录，且无法撤销。建议先导出备份。',()=>{state={tasks:[],records:{},photos:{}};save();renderAll();showToast('本地数据已清除')},'全部清除'));
+window.addEventListener('storage',e=>{if(e.key===KEY){state=loadState();renderAll()}});
+$('removeTaskImage').disabled=true;renderGuide();
+renderAll();
+})();
+</script>
+</body>
+</html>
